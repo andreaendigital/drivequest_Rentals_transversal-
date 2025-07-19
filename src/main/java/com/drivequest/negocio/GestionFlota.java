@@ -4,6 +4,7 @@
  */
 package com.drivequest.negocio;
 
+import com.drivequest.excepciones.PatenteDuplicadaException;
 import com.drivequest.excepciones.VehiculoYaArrendadoException;
 import com.drivequest.excepciones.VehiculoNoEncontradoException;
 import com.drivequest.modelo.Vehiculo;
@@ -30,15 +31,16 @@ public class GestionFlota {
     }
     
   /**
-   * Agrega un vehículo a la flota.
-   * No tiene return y lanza excepción si la patente ya existe.
-   * 
+   * Agrega un vehículo a la flota.No tiene return y lanza excepción si la patente ya existe.
+   *
+     * @param vehiculo 
+     * @throws com.drivequest.excepciones.PatenteDuplicadaException 
    */
     
     public void agregarVehiculo(Vehiculo vehiculo) throws PatenteDuplicadaException {
         if(vehiculo == null || vehiculo.getPatente() == null ){
             //Se opta por no crear una excepción personalizada para este caso
-            throw new IllegalArgumentException("El vehiculo o su patente no pueden ser nulos.")                    
+            throw new IllegalArgumentException("El vehiculo o su patente no pueden ser nulos.") ;                   
         }
         
         //putIfAbsent es atómico. Si devuelve un valor no nulo, significa que la clave ya existía.
@@ -57,10 +59,10 @@ public class GestionFlota {
     
     public Vehiculo buscarVehiculo(String patente) throws VehiculoNoEncontradoException{
         if(patente == null){
-            throw new IllegarArgumentException("La patente de busqueda no puede ser nula.");
+            throw new IllegalArgumentException("La patente de busqueda no puede ser nula.");
         }
         
-        Vehiculo vehiculo = flota.get(patente.toUpperCas());
+        Vehiculo vehiculo = flota.get(patente.toUpperCase());
         if(vehiculo  == null){
             throw new VehiculoNoEncontradoException("No se encontro ningun vehiculo con la patente ' " + patente.toUpperCase() + " '. ");
         }

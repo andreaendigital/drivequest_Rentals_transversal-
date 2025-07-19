@@ -10,7 +10,7 @@ package com.drivequest.excepciones;
  * Excepción personalizada para ser lanzada cuando se intenta realizar uan operación
  * de arriendo sobre un vehículo que ya se encuentra arrendado.
  */
-class VehiculoYaArrendadoException extends Exception {
+public class VehiculoYaArrendadoException extends Exception {
     public VehiculoYaArrendadoException(String message){
         super(message);
     }
