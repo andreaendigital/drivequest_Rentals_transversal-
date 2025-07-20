@@ -29,6 +29,34 @@ En otras palabras, el desarrollo de la aplicación debe responder a los siguient
 - También integrar excepciones ‘try-catch’ para prevenir fallos del programa.
 
 
+### ✨ Reflexiones y otros ✨
+
+Para asegurar un sistema escalable y mantenible, diseñé una arquitectura basada en principios SOLID. Organicé el código en seis paquetes, separando el modelo de datos, la lógica de negocio, la persistencia, la interfaz de usuario y la lógica de concurrencia. El núcleo del modelo se basa en una clase abstracta Vehiculo, que define los atributos comunes, y dos clases hijas que especializan a los vehículos de carga y pasajeros. Para los cálculos, utilicé una interfaz ICalculable, lo que me permitió desacoplar las reglas de negocio del modelo y aplicar el polimorfismo de manera efectiva
+
+🚀 Estrategias de implementación: 
+
+- Gestión de Datos: Se utilizó un ConcurrentHashMap<String, Vehiculo> para gestionar la flota.
+Ventaja 1: Garantiza la unicidad de la patente de forma nativa.
+Ventaja 2: Ofrece búsquedas de alta eficiencia (O(1)).
+Ventaja 3: Es thread-safe, esencial para la concurrencia.
+
+- Manejo de Errores: Se crearon excepciones personalizadas como PatenteDuplicadaException y VehiculoNoEncontradoException. Esto hace que el código sea más semántico y robusto que simplemente devolver null o false.
+
+🚀 Desafío 1: ¿Cómo evitar que la aplicación se congele al cargar o guardar archivos grandes?
+
+Solución: Implementé hilos (CargadorVehiculosThread, GuardadorVehiculosThread) para que estas operaciones de entrada y salida se ejecuten en segundo plano, manteniendo la interfaz de usuario siempre responsiva.
+
+🚀 Desafío 2: ¿Cómo manejar de forma segura la adición de muchos vehículos a la vez?
+
+Solución: El uso de ConcurrentHashMap y su método atómico putIfAbsent permitió que el hilo generador de vehículos masivos funcionara de manera segura y eficiente sin corromper la colección.
+
+🚀 Desafío 3: ¿Cómo asegurar que las reglas de negocio (ej: no arrendar un vehículo ya arrendado) se respeten de forma estricta?
+
+Solución: Centralicé estas validaciones en la capa de negocio (GestionFlota) y utilicé excepciones personalizadas para detener flujos de trabajo inválidos de manera explícita.
+
+
+
+
 ## Visuales :mage_woman:
 
 Esquema de archivos / paquetes
