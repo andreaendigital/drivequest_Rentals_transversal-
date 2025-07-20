@@ -16,7 +16,7 @@ import com.drivequest.excepciones.PatenteInvalidaException;
  */
 public class VehiculoCarga extends Vehiculo implements ICalculable {
     
-    private double capacidadCargaKg; // Atributo especifico para este tipo de vehiculo
+    private int capacidadCargaKg; // Atributo especifico para este tipo de vehiculo
     
      /**
     *Constructor que inicializa tanto los atributos propios como los de la clase padre, propaga PatenteInvalidaException,
@@ -27,17 +27,18 @@ public class VehiculoCarga extends Vehiculo implements ICalculable {
      * @param capacidadCargaKg
      * @throws com.drivequest.excepciones.PatenteInvalidaException
     */
-    public VehiculoCarga(String patente, String marca, double precioBaseDia, double capacidadCargaKg) throws PatenteInvalidaException {
+    public VehiculoCarga(String patente, String marca, double precioBaseDia, int capacidadCargaKg) throws PatenteInvalidaException {
         //La primera linea DEBE ser la llamada al constructor de la clase padre (super).
         super(patente, marca, precioBaseDia);
         this.capacidadCargaKg = capacidadCargaKg;
     }
 
-    public double getCapacidadCargaKg() {
-        return capacidadCargaKg;
+    public int getCapacidadCargaKg() {
+         return (int) capacidadCargaKg;
+
     }
 
-    public void setCapacidadCargaKg(double capacidadCargaKg) {
+    public void setCapacidadCargaKg(int capacidadCargaKg) {
         this.capacidadCargaKg = capacidadCargaKg;
     }
 
@@ -50,7 +51,7 @@ public class VehiculoCarga extends Vehiculo implements ICalculable {
     
     @Override
     public String mostrarDatos() {
-        return String.format("Tipo: Carga | Patente: %-8s | Marca: %-10s | Capacidad: %.1f Kg | Precio/Dia: $%.0f | Estado: %s",
+        return String.format("Tipo: Carga | Patente: %-8s | Marca: %-10s | Capacidad: %d Kg | Precio/Dia: $%.0f | Estado: %s",
                 patente, marca, capacidadCargaKg, precioBaseDia, arrendado ? "Arrendado (" + diasArriendo + " dias)" : "Disponible");
     }
 

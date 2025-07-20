@@ -30,7 +30,7 @@ public class CargadorVehiculosThread extends Thread {
         System.out.println("Iniciando carga de datos en segundo plano... [ " + getName() + " ] ");
         //La operacion de I/O se ejcuta en este hilo, no en el principal.
         gestionFlota.cargarFlota(manejadorArchivos.cargarVehiculos());
-        System.out.println("Carga de Datos completada" + gestionFlota.getFlota().size() + " Vehiculos Cargados");
+        System.out.println("Carga de Datos completada " + gestionFlota.getFlota().size() + " Vehiculos Cargados");
     }
     
 }

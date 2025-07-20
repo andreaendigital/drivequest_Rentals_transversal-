@@ -51,8 +51,20 @@ public class MenuConsola {
                     case 6: generarVehiculosMasivamente(); break;
                     case 7: mostrarCantidadVehiculos(); break;
                     case 8:
-                        System.out.println("Guardando cambios y saliendo del sistema...");
-                        new GuardadorVehiculosThread(gestionFlota).start();
+                
+                        System.out.println("Guardando cambios y saliendo del sistema... Por favor, espere.");
+                        // Creamos una referencia al hilo para poder operar sobre él.
+                        GuardadorVehiculosThread guardador = new GuardadorVehiculosThread(gestionFlota);
+                        guardador.start(); // Lo iniciamos como antes.
+                        try {
+                            // NUEVO: El hilo principal se detiene aquí y espera hasta que el hilo 'guardador' termine su trabajo.
+                            guardador.join();
+                        } catch (InterruptedException e) {
+                            System.err.println("El guardado fue interrumpido.");
+                            // Es una buena práctica restaurar el estado de interrupción.
+                            Thread.currentThread().interrupt();
+                        }
+                        System.out.println("Guardado completado. Saliendo.");
                         break;
                     default: 
                         System.out.println("Opcion no valida. Intente nuevamente.");
@@ -105,7 +117,7 @@ public class MenuConsola {
             if(tipo == 1){
                 
                 System.out.println("Ingrese capacidad de carga (Kg): ");
-                double capacidad = scanner.nextDouble();
+                int capacidad = scanner.nextInt();
                 scanner.nextLine();
                 nuevoVehiculo = new VehiculoCarga(patente, marca, precio, capacidad);
                 

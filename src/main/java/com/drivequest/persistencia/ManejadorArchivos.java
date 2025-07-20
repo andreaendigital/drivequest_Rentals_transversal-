@@ -41,7 +41,7 @@ public class ManejadorArchivos {
                 String linea;
                 if(v instanceof VehiculoCarga){
                     VehiculoCarga vc = (VehiculoCarga) v;
-                    linea = String.format("CARGA, %s, %s, %.0f, %.1f, %b, %d",
+                    linea = String.format("CARGA, %s, %s, %.0f, %d, %b, %d",
                             vc.getPatente(), vc.getMarca(), vc.getPrecioBaseDia(),
                             vc.getCapacidadCargaKg(), vc.isArrendado(), vc.getDiasArriendo() );
                     
@@ -80,13 +80,13 @@ public class ManejadorArchivos {
                     String[] partes = linea.split(",");
                     if(partes.length < 7) continue;
                     
-                    String tipo = partes[0];
-                    String patente = partes[1];
-                    String marca = partes[2];
-                    double precio = Double.parseDouble(partes[3]);
-                    double atributoEspecifico = Double.parseDouble(partes[4]);
-                    boolean arrendado = Boolean.parseBoolean(partes[5]);
-                    int dias = Integer.parseInt(partes[6]);
+                    String tipo = partes[0].trim();
+                    String patente = partes[1].trim();
+                    String marca = partes[2].trim();
+                    double precio = Double.parseDouble(partes[3].trim());
+                    int atributoEspecifico = Integer.parseInt(partes[4].trim());
+                    boolean arrendado = Boolean.parseBoolean(partes[5].trim());
+                    int dias = Integer.parseInt(partes[6].trim());
                     
                     Vehiculo vehiculo;
                     if("CARGA".equals(tipo)){

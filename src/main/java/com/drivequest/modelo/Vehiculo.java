@@ -28,9 +28,11 @@ public abstract class Vehiculo {
     private static final Pattern PATENTE_PATTERN = Pattern.compile("^[A-Z]{4}\\d{2}$");
     
      /**
-     * Constructor sobrecargado.
-     * Inicializa los datos comunes y puede lanzar PatenteInvalidaException.
-     * Esto obliga a que cualquier código que cree un Vehiculo maneje la posibilidad de una patente inválida.
+     * Constructor sobrecargado.Inicializa los datos comunes y puede lanzar PatenteInvalidaException.Esto obliga a que cualquier código que cree un Vehiculo maneje la posibilidad de una patente inválida.
+     * @param patente
+     * @param marca
+     * @param precioBaseDia
+     * @throws com.drivequest.excepciones.PatenteInvalidaException
      */
     
     public Vehiculo(String patente, String marca, double precioBaseDia) throws PatenteInvalidaException {
@@ -45,7 +47,7 @@ public abstract class Vehiculo {
     //Método privado para centralizar la lógica de validación de la patente.
     private void validarYAsignarPatente(String patente) throws PatenteInvalidaException {
         if (patente == null || !PATENTE_PATTERN.matcher(patente.toUpperCase()).matches()) {
-            throw new PatenteInvalidaException("La patente '" + patente + "' es inválida. Debe tener el formato AAAA11.");
+            throw new PatenteInvalidaException("La patente '" + patente + "' es invalida. Debe tener el formato AAAA11.");
         }
         this.patente = patente.toUpperCase();
     }
