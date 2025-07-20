@@ -4,16 +4,19 @@
  */
 package com.drivequest.ui;
 
+import com.drivequest.concurrencia.GeneradorVehiculosThread;
 import com.drivequest.concurrencia.GuardadorVehiculosThread;
 import com.drivequest.excepciones.PatenteDuplicadaException;
 import com.drivequest.excepciones.PatenteInvalidaException;
 import com.drivequest.excepciones.VehiculoNoEncontradoException;
 import com.drivequest.excepciones.VehiculoYaArrendadoException;
+import com.drivequest.modelo.ICalculable;
 import com.drivequest.modelo.Vehiculo;
 import com.drivequest.modelo.VehiculoCarga;
 import com.drivequest.modelo.VehiculoPasajeros;
 import com.drivequest.negocio.GestionFlota;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -78,7 +81,7 @@ public class MenuConsola {
          System.out.println("7. Mostrar cantidad total de vehiculos");
          System.out.println("8. Salir del sistema");
          System.out.println("");
-         System.out.println("Seleccione una opción: ");
+         System.out.println("Seleccione una opcion: ");
     }
     
     private void agregarNuevoVehiculo(){
@@ -186,29 +189,72 @@ public class MenuConsola {
 
         //Casting : vehiculo implementa interfaz ICalculable, lo que permite acceder a los metodos para calcular el total
         ICalculable calculador = (ICalculable) vehiculo; 
-        
+        double total = calculador.calcularTotalArriendo(dias, vehiculo.getPrecioBaseDia());
+        double subtotal = dias * vehiculo.getPrecioBaseDia();
+        double descuentoAplicado = 0;
+        String tipoDescuento = "";
+
+        if (vehiculo instanceof VehiculoCarga) {
+            descuentoAplicado = subtotal * ICalculable.DESCUENTO_CARGA;
+            tipoDescuento = "Carga (7%)";
+        } else if (vehiculo instanceof VehiculoPasajeros) {
+            descuentoAplicado = subtotal * ICalculable.DESCUENTO_PASAJEROS;
+            tipoDescuento = "Pasajeros (12%)";
+        }
+
+        System.out.println("\n--- Previsualizacion de Boleta ---");
+        System.out.println(vehiculo.mostrarDatos());
+        System.out.println("---------------------------------");
+        System.out.printf("Subtotal (%d dias a $%.0f): $%.2f\n", dias, vehiculo.getPrecioBaseDia(), subtotal);
+        System.out.printf("Descuento (%s): -$%.2f\n", tipoDescuento, descuentoAplicado);
+        System.out.printf("Neto: $%.2f\n", subtotal - descuentoAplicado);
+        System.out.printf("IVA (19%%): $%.2f\n", (subtotal - descuentoAplicado) * ICalculable.IVA);
+        System.out.printf("TOTAL A PAGAR: $%.2f\n", total);
+        System.out.println("---------------------------------");
        
     }
     
     
     
     private void mostrarArriendosLargos(){
-        
+        System.out.println("\n--- Vehiculos con Arriendo Prolongado (>= 7 dias) ---");
+        List<Vehiculo> vehiculos = gestionFlota.listarVehiculosArriendoLargo();
+        if (vehiculos.isEmpty()) {
+            System.out.println("No hay vehiculos con arriendos de 7 dias o mas.");
+        } else {
+            vehiculos.forEach(v -> System.out.println(v.mostrarDatos()));
+        }
     }
     
     private void guardarDatosEnArchivo(){
-        
+        GuardadorVehiculosThread guardador = new GuardadorVehiculosThread(gestionFlota);
+        guardador.start();
+        System.out.println("Solicitud de guardado enviada. El proceso se completara en segundo plano.");
+    
     }
      
     private void generarVehiculosMasivamente(){
-        
+        System.out.print("Cuantos vehiculos de prueba desea generar?: ");
+        try {
+            int cantidad = scanner.nextInt();
+            scanner.nextLine();
+            if (cantidad > 0) {
+                GeneradorVehiculosThread generador = new GeneradorVehiculosThread(gestionFlota, cantidad);
+                generador.start();
+                System.out.println("Solicitud de generacion masiva enviada. El proceso se completara en segundo plano.");
+            }
+        } catch (InputMismatchException e) {
+            System.err.println("Error: Debe ingresar un numero.");
+            scanner.nextLine();
+        }
     }
     private void mostrarCantidadVehiculos(){
-        
+         System.out.println("\nTotal de vehiculos en la flota: " + gestionFlota.getFlota().size());
     } 
     
     private void presioneEnterParaContinuar(){
-        
+        System.out.println("\nPresione Enter para continuar...");
+        scanner.nextLine(); 
     }
     
     

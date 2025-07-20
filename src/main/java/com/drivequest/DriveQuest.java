@@ -4,6 +4,9 @@
 
 package com.drivequest;
 
+import com.drivequest.negocio.GestionFlota;
+import com.drivequest.ui.MenuConsola;
+
 /**
  *
  * @author Andrea
@@ -11,6 +14,9 @@ package com.drivequest;
 public class DriveQuest {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        GestionFlota gestionFlota = new GestionFlota();
+        MenuConsola menu = new MenuConsola(gestionFlota);
+        menu.iniciar();  
+
     }
 }

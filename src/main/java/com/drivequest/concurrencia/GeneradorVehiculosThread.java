@@ -22,7 +22,7 @@ public class GeneradorVehiculosThread extends Thread {
     private final int cantidadAGenerar;
     private final Random random = new Random();
     
-    public GeneradorVehiculosThread(GestionFlota gestionFlota1, int cantidadAGenerar ){
+    public GeneradorVehiculosThread(GestionFlota gestionFlota, int cantidadAGenerar ){
         this.gestionFlota = gestionFlota;
         this.cantidadAGenerar = cantidadAGenerar;
         setName("Generador Masivo de Vehiculos");
@@ -30,15 +30,15 @@ public class GeneradorVehiculosThread extends Thread {
     
     @Override
     public void run(){
-        System.out.println("Iniciando generación masiva de " + cantidadAGenerar + " vehículos...");
+        System.out.println("Iniciando generacion masiva de " + cantidadAGenerar + " vehiculos...");
         System.out.println("Ejecutandose [ " + getName() + " ] ");
         
         int generadosExitosamente = 0 ;
         for(int i=0; i<cantidadAGenerar; i++){
             //Genera una patente aleatoria con formato valido AAAA11
             String patente = String.format("%c%c%c%c%02d",
-                    (char)('A' + random.nextInt(26)), (char)('A' + random.nextInt(26))
-                    (char)('A' + random.nextInt(26)), (char)('A' + random.nextInt(26))
+                    (char)('A' + random.nextInt(26)), (char)('A' + random.nextInt(26)),
+                    (char)('A' + random.nextInt(26)), (char)('A' + random.nextInt(26)),
                     random.nextInt(100));
                     
             //el metodo run de un hilo no puede lanzar excpeciones "checked"
@@ -59,7 +59,7 @@ public class GeneradorVehiculosThread extends Thread {
             }
                     
         }
-        System.out.println("Generación Masiva completada. Se agregaron " + generadosExitosamente + " vehiculos nuevos");
+        System.out.println("Generacion Masiva completada. Se agregaron " + generadosExitosamente + " vehiculos nuevos");
         System.out.println("[ " + getName() + " ]  Finalizo ejecucion.");
     }
     

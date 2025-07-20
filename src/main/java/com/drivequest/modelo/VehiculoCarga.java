@@ -50,8 +50,8 @@ public class VehiculoCarga extends Vehiculo implements ICalculable {
     
     @Override
     public String mostrarDatos() {
-        return String.format("Tipo: Carga | Patente: %-8s | Marca: %-10s | Capacidad: %.1f Kg | Precio/Día: $%.0f | Estado: %s",
-                patente, marca, capacidadCargaKg, precioBaseDia, arrendado ? "Arrendado (" + diasArriendo + " días)" : "Disponible");
+        return String.format("Tipo: Carga | Patente: %-8s | Marca: %-10s | Capacidad: %.1f Kg | Precio/Dia: $%.0f | Estado: %s",
+                patente, marca, capacidadCargaKg, precioBaseDia, arrendado ? "Arrendado (" + diasArriendo + " dias)" : "Disponible");
     }
 
     /**

@@ -97,11 +97,14 @@ public class GestionFlota {
     }
     
     public List<Vehiculo> listarTodosLosVehiculos(){
+        return flota.values().stream().collect(Collectors.toList());
+    }
+    
+    public List<Vehiculo> listarVehiculosArriendoLargo() {
         return flota.values().stream()
                 .filter(v -> v.isArrendado() && v.getDiasArriendo() >= 7)
                 .collect(Collectors.toList());
     }
-    
     public void cargarFlota(Map<String, Vehiculo> nuevaFlota){
         if(nuevaFlota != null){
             this.flota.clear();

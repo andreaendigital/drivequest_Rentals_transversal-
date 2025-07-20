@@ -32,8 +32,8 @@ public class VehiculoPasajeros extends Vehiculo implements ICalculable {
 
     @Override
     public String mostrarDatos() {
-        return String.format("Tipo: Pasajero| Patente: %-8s | Marca: %-10s | Pasajeros: %-2d | Precio/Día: $%.0f | Estado: %s",
-                patente, marca, maxPasajeros, precioBaseDia, arrendado ? "Arrendado (" + diasArriendo + " días)" : "Disponible");
+        return String.format("Tipo: Pasajero| Patente: %-8s | Marca: %-10s | Pasajeros: %-2d | Precio/Dia: $%.0f | Estado: %s",
+                patente, marca, maxPasajeros, precioBaseDia, arrendado ? "Arrendado (" + diasArriendo + " dias)" : "Disponible");
     }
 
     @Override
